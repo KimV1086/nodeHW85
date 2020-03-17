@@ -19,13 +19,13 @@ app.use(cors());
 
 
 mongoose.connect(config.dbUrl, config.mongoOptions).then(() => {
-  app.use('/artists', artists);
-  app.use('/albums', albums);
-  app.use('/tracks', tracks);
-  app.use('/users', users);
-  app.use('/trackHistory', trackHistory);
+    app.use('/artists', artists);
+    app.use('/albums', albums);
+    app.use('/tracks', tracks);
+    app.use('/users', users);
+    app.use('/trackHistory', trackHistory);
 
-  app.listen(port, () => {
-    console.log(`Server started on ${port} port`);
-  });
+    app.listen(port, () => {
+        console.log(`Server started on ${port} port`);
+    });
 });

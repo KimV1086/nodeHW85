@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {CardColumns} from "reactstrap";
 
-import {fetchTracks, deleteTrack, publishedTrack} from "../../store/actions/trackActions";
+import {fetchTracks} from "../../store/actions/trackActions";
 import {fetchAlbumsId} from "../../store/actions/albumActions";
 import {addToTrackHistory} from "../../store/actions/trackHistoryActions"
 
@@ -20,17 +20,6 @@ class Album extends Component {
         this.props.addToTrackHistory({track: id});
     };
 
-    goDelete = id => {
-        this.props.deleteTrack(id);
-        this.props.history.push({
-            pathname: '/'
-        })
-    };
-
-    changePublishStatus = id => {
-        this.props.publishedTrack(id);
-    };
-
     render() {
         return (
             <Fragment>
@@ -40,14 +29,10 @@ class Album extends Component {
                     {this.props.tracks.map(track => {
                         return (
                             <TrackComponent
-                                user={this.props.user}
-                                delete={() => this.goDelete(track._id)}
-                                published={this.changePublishStatus}
                                 key={track._id}
                                 title={track.title}
                                 number={track.number}
                                 length={track.length}
-                                track={track}
                                 onClick={() => this.goTrackHistory(track._id)}
                             />
                         )
@@ -61,8 +46,6 @@ class Album extends Component {
 const mapStateToProps = state => {
     return {
         tracks: state.track.tracks,
-        artists: state.artist.artists,
-        user: state.user.user,
         albumId: state.album.albumId,
         artistAlbum: state.album.artistAlbum
     }
@@ -72,9 +55,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchTracks: (id) => dispatch(fetchTracks(id)),
         fetchAlbumsId: (id) => dispatch(fetchAlbumsId(id)),
-        addToTrackHistory: (id) => dispatch(addToTrackHistory(id)),
-        deleteTrack: id => dispatch(deleteTrack(id)),
-        publishedTrack: id => dispatch(publishedTrack(id))
+        addToTrackHistory: (id) => dispatch(addToTrackHistory(id))
     }
 };
 

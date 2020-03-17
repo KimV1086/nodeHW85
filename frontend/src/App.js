@@ -1,11 +1,16 @@
 import React, {Component, Fragment} from 'react';
-import {Container} from "reactstrap";
-import {withRouter} from "react-router-dom";
+import {Switch, Route, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import {logOutUser} from "./store/actions/userActions";
+import Container from "reactstrap/es/Container";
 
 import Toolbar from "./components/UI/Toolbar/Toolbar";
-import {logOutUser} from "./store/actions/userActions";
-import Routes from "./Routes";
+import Register from "./containers/Register/Register";
+import TrackHistory from "./containers/TrackHistory/TrackHistory";
+import Login from "./containers/Login/Login";
+import ArtistsBuilder from "./containers/ArtistsBuilder/ArtistsBuilder";
+import Artist from "./containers/Artist/Artist";
+import Album from "./containers/Album/Album";
 
 
 class App extends Component {
@@ -18,8 +23,15 @@ class App extends Component {
                         logout={this.props.logOutUser}
                     />
                 </header>
-                <Container style={{marginTop: '20px'}}>
-                    <Routes user={this.props.user}/>
+                <Container className="mt-5">
+                    <Switch>
+                        <Route path="/" exact component={ArtistsBuilder}/>
+                        <Route path="/artists/:id" component={Artist}/>
+                        <Route path="/albums/:id" component={Album}/>
+                        <Route path="/register" exact component={Register}/>
+                        <Route path="/login" exact component={Login}/>
+                        <Route path="/trackHistory" exact component={TrackHistory}/>
+                    </Switch>
                 </Container>
             </Fragment>
         );
@@ -33,5 +45,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     logOutUser: () => dispatch(logOutUser())
 });
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
